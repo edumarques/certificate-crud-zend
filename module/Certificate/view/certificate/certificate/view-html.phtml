@@ -1,0 +1,41 @@
+<?php
+$title = 'View certificate HTML';
+$this->headTitle($title);
+
+$isin = $this->escapeHtml($certificate->getIsin());
+$tradingMarket = $this->escapeHtml($certificate->getTradingMarket());
+$issuer = $this->escapeHtml($certificate->getIssuer());
+$currency = $this->escapeHtml($certificate->getCurrency());
+$issuingPrice = $this->escapeHtml($certificate->getIssuingPrice());
+$currentPrice = $this->escapeHtml($certificate->getCurrentPrice());
+// $barrier = $this->escapeHtml($certificate->getBarrier());
+// $participationRate = $this->escapeHtml($certificate->getParticipationRate());
+
+$priceHistoryString = '';
+$priceHistoryArray = explode(',', $certificate->getPriceHistory());
+foreach ($priceHistoryArray as $key => $price) {
+    if ($key <= 9) {
+        $priceHistoryString .= ($key === 0) ? ($currency.' '.number_format(($price/100), 2, '.', ',')): (', '.$currency.' '.number_format(($price/100), 2, '.', ','));
+    }    
+}
+?>
+
+<div style="width: 800px; height: 600px; padding: 15px; margin: 50px auto; border: 10px solid #787878;">
+	<div style="width: 750px; height: 550px; padding: 20px; border: 5px solid #787878">
+		<div style="font-size: 50px; font-weight: bold; text-align: center; text-decoration: underline">Certificate</div>
+		<br /> <br />
+		<div style="font-size: 25px">
+			<span>ISIN: <b><i><?= $isin ?></i></b></span>
+			<br />
+			<span>Trading Market: <b><i><?= $tradingMarket ?></i></b></span>
+			<br />
+			<span>Issuer: <b><i><?= $issuer ?></i></b></span>
+			<br />
+			<span>Issuing Price: <b><i><?= $currency.' '.number_format(($issuingPrice/100), 2, '.', ',') ?></i></b></span>
+			<br />
+			<span>Current Price: <b><i><?= $currency.' '.number_format(($currentPrice/100), 2, '.', ',') ?></i></b></span>
+			<br />
+			<span>Price History: <b><i><?= $priceHistoryString ?></i></b></span>
+		</div>
+	</div>
+</div>

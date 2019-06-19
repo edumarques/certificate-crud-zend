@@ -1,0 +1,83 @@
+<?php
+
+$title = 'Update price';
+$this->headTitle($title);
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<?php
+$isin = $form->get('isin');
+$isin->setAttribute('class', 'form-control');
+$isin->setAttribute('placeholder', 'ISIN');
+
+$tradingMarket = $form->get('tradingMarket');
+$tradingMarket->setAttribute('class', 'form-control');
+$tradingMarket->setAttribute('placeholder', 'Trading Market');
+
+$issuer = $form->get('issuer');
+$issuer->setAttribute('class', 'form-control');
+$issuer->setAttribute('placeholder', 'Issuer');
+
+$currency = $form->get('currency');
+$currency->setAttribute('class', 'form-control');
+$currency->setAttribute('placeholder', 'Currency');
+
+$issuingPrice = $form->get('issuingPrice');
+$issuingPrice->setAttribute('class', 'form-control');
+$issuingPrice->setAttribute('placeholder', 'Issuing Price');
+
+$currentPrice = $form->get('currentPrice');
+$currentPrice->setAttribute('class', 'form-control');
+$currentPrice->setAttribute('placeholder', 'Current Price');
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+
+$form->setAttribute('action', $this->url('certificate', [
+    'action' => 'updatePrice',
+    'id'     => $id,
+]));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+<div class="form-group">
+    <?= $this->formLabel($isin) ?>
+    <?= $this->formElement($isin) ?>
+    <?= $this->formElementErrors()->render($isin, ['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($tradingMarket) ?>
+    <?= $this->formElement($tradingMarket) ?>
+    <?= $this->formElementErrors()->render($tradingMarket, ['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($issuer) ?>
+    <?= $this->formElement($issuer) ?>
+    <?= $this->formElementErrors()->render($issuer, ['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($currency) ?>
+    <?= $this->formElement($currency) ?>
+    <?= $this->formElementErrors()->render($currency, ['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($issuingPrice) ?>
+    <?= $this->formElement($issuingPrice) ?>
+    <?= $this->formElementErrors()->render($issuingPrice, ['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($currentPrice) ?>
+    <?= $this->formElement($currentPrice) ?>
+    <?= $this->formElementErrors()->render($currentPrice, ['class' => 'help-block']) ?>
+</div>
+
+
+<?php
+echo $this->formSubmit($submit);
+echo $this->formHidden($form->get('id'));
+echo $this->form()->closeTag();

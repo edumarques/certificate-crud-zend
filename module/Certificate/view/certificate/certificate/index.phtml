@@ -1,0 +1,44 @@
+<?php
+
+$title = 'My certificates';
+$this->headTitle($title);
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<p>
+    <a class="btn btn-success" href="<?= $this->url('certificate', ['action' => 'create']) ?>">Create new certificate</a>
+</p>
+
+<table class="table">
+<tr>
+    <th>ISIN</th>
+    <th>Trading Market</th>
+    <th>Issuer</th>
+    <th>Currency</th>
+    <th>Issuing Price</th>
+    <th>Current Price</th>
+    <th></th>
+    <th></th>    
+    <th></th>
+</tr>
+<?php foreach ($certificates as $certificate) : ?>
+    <tr>
+        <td><?= $this->escapeHtml($certificate->getIsin()) ?></td>
+        <td><?= $this->escapeHtml($certificate->getTradingMarket()) ?></td>
+        <td><?= $this->escapeHtml($certificate->getIssuer()) ?></td>
+        <td><?= $this->escapeHtml($certificate->getCurrency()) ?></td>
+        <td><?= $this->escapeHtml(number_format(($certificate->getIssuingPrice()/100), 2, '.', ',')) ?></td>
+        <td><?= $this->escapeHtml(number_format(($certificate->getCurrentPrice()/100), 2, '.', ',')) ?></td>
+        <td><a class="btn btn-sm btn-link" href="<?= $this->url('certificate', ['action' => 'updatePrice', 'id' => $certificate->getId()]) ?>" >Update price</a></td>	
+        <td>
+            <?php if ($certificate->getAdditionalDocument()) : ?>
+            <a class="btn btn-sm btn-warning" href="<?= $this->url('certificate', ['action' => 'download', 'id' => $certificate->getId()]) ?>" target="_blank">Additional document</a>
+            <?php endif; ?>
+        </td>
+        <td>
+        	<a class="btn btn-sm btn-primary" href="<?= $this->url('certificate', ['action' => 'viewHtml', 'id' => $certificate->getId()]) ?>">HTML</a>
+        	<a class="btn btn-sm btn-info" href="<?= $this->url('certificate', ['action' => 'viewXml', 'id' => $certificate->getId()]) ?>">XML</a>
+            <a class="btn btn-sm btn-danger" href="<?= $this->url('certificate', ['action' => 'delete', 'id' => $certificate->getId()]) ?>">Delete</a>
+        </td>
+    </tr>
+<?php endforeach; ?>
+</table>

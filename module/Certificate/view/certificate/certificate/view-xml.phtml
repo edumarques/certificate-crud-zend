@@ -1,0 +1,45 @@
+<?php
+$title = 'View certificate XML';
+$this->headTitle($title);
+
+
+$isin = $this->escapeHtml($certificate->getIsin());
+$tradingMarket = $this->escapeHtml($certificate->getTradingMarket());
+$issuer = $this->escapeHtml($certificate->getIssuer());
+$currency = $this->escapeHtml($certificate->getCurrency());
+$issuingPrice = $this->escapeHtml($certificate->getIssuingPrice());
+$currentPrice = $this->escapeHtml($certificate->getCurrentPrice());
+
+$priceHistoryArray = explode(',', $certificate->getPriceHistory());
+$priceHistoryString = '';
+foreach ($priceHistoryArray as $key => $price) {
+    if ($key <= 9) {
+        $priceHistoryString .= ($key === 0) ? "\t<price$key>$currency ".number_format(($price/100), 2, '.', ',')."</price$key>"
+            : "\n\t<price$key>$currency ".number_format(($price/100), 2, '.', ',')."</price$key>";
+    }
+}
+
+
+$xmlstr = $this->escapeHtml('<?xml version="1.0" encoding="UTF-8"?>
+<certificate>
+    <isin>'.$isin.'</isin>
+    <tradingMarket>'.$tradingMarket.'</tradingMarket>
+    <issuer>'.$issuer.'</issuer>
+    <currency>'.$currency.'</currency>
+    <issuingPrice>'.$issuingPrice.'</issuingPrice>
+    <currentPrice>'.$currentPrice.'</currentPrice>
+    <priceHistory>
+'.$priceHistoryString.'
+    </priceHistory>
+</certificate>
+');
+?>
+
+
+<div style="margin: 50px auto">
+
+<pre lang="xml">
+<?= $xmlstr ?>
+</pre>
+
+</div>
